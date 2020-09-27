@@ -1,8 +1,8 @@
 class Grade {
   String _letter;
 
-  Grade.fromPercent(double percent) {
-    _letter = _getLetterGradeFromPercent(percent);
+  Grade.fromPercentage(double percentage) {
+    _letter = _getLetterGradeFromPercent(percentage / 100);
   }
 
   Grade.fromFraction(double numerator, double denominator) {

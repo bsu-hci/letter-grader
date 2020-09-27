@@ -16,6 +16,9 @@ class MyApp extends StatelessWidget {
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       home: GradingPage(),
+      routes: {
+        GradingPage.route: (BuildContext context) => GradingPage(),
+      },
     );
   }
 }

@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:letter_grader/src/view/result_page.dart';
+import 'package:letter_grader/src/view/util.dart';
 
 class GradingPage extends StatefulWidget {
+  static const route = 'GradingPage';
+
   @override
   _GradingPageState createState() {
     return _GradingPageState();
@@ -142,11 +146,34 @@ class _GradingPageState extends State<GradingPage> {
     );
   }
 
+  Route _percentRoute() {
+    return routeWithSlideTransition(
+      ResultPage.fromPercent(_percent),
+    );
+  }
+
+  Route _fractionRoute() {
+    return routeWithSlideTransition(
+      ResultPage.fromFraction(_numerator, _denominator),
+    );
+  }
+
   Widget _buildSubmitButton() {
     return RaisedButton(
       onPressed: () {
         if (_formKey.currentState.validate()) {
           _formKey.currentState.save();
+          if (_percent != null) {
+            Navigator.push(
+              context,
+              _percentRoute(),
+            );
+          } else {
+            Navigator.push(
+              context,
+              _fractionRoute(),
+            );
+          }
         }
       },
       child: Text('Submit'),
