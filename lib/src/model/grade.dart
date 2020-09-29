@@ -1,30 +1,30 @@
+import 'dart:js_util';
+
+import 'package:letter_grader/src/model/strategy/classical_strategy.dart';
+import 'package:letter_grader/src/model/strategy/triage_strategy.dart';
+
 class Grade {
-  String _letter;
+  double _score;
+  bool triage;
 
-  Grade.fromPercentage(double percentage) {
-    _letter = _getLetterGradeFromPercent(percentage / 100);
+  Grade.fromPercentage(double percentage, {this.triage = false}) {
+    _score = percentage / 100;
   }
 
-  Grade.fromFraction(double numerator, double denominator) {
-    var percent = numerator / denominator;
-    _letter = _getLetterGradeFromPercent(percent);
+  Grade.fromFraction(
+      double numerator, //
+      double denominator,
+      {this.triage = false}) {
+    _score = numerator / denominator;
   }
 
-  static String _getLetterGradeFromPercent(double percent) {
-    if (percent < 0.6) {
-      return 'F';
+  String _getLetterGrade() {
+    if (triage) {
+      return TriageStrategy().getLetterGradeFromPercent(_score);
+    } else {
+      return ClassicalStrategy().getLetterGradeFromPercent(_score);
     }
-    if (percent < 0.7) {
-      return 'D';
-    }
-    if (percent < 0.8) {
-      return 'C';
-    }
-    if (percent < 0.9) {
-      return 'B';
-    }
-    return 'A';
   }
 
-  String get letter => _letter;
+  String get letter => _getLetterGrade();
 }
