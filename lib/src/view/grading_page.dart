@@ -122,6 +122,17 @@ class _GradingPageState extends State<GradingPage> {
     );
   }
 
+  Widget _buildTriageGradingRow() {
+    return Row(
+      children: [
+        _buildTriageGradingFormCheckBox(),
+        Padding(padding: EdgeInsets.all(1)),
+        Text("Triage Grading?"),
+      ],
+      mainAxisAlignment: MainAxisAlignment.center,
+    );
+  }
+
   Widget _buildNumeratorTextFormField() {
     return TextFormField(
       initialValue: "",
@@ -196,33 +207,11 @@ class _GradingPageState extends State<GradingPage> {
   }
 
   Widget _buildPercentForm() {
-    return Column(
+    return Row(
       children: [
-        _buildMethodSelectDropdownFormButton(),
-        Padding(padding: EdgeInsets.all(24)),
-        Row(
-          children: [
-            _buildTriageGradingFormCheckBox(),
-            Padding(padding: EdgeInsets.all(12)),
-            Text("Triage Grading?"),
-          ],
-        ),
-        Padding(padding: EdgeInsets.all(24)),
-        Row(
-          children: <Widget>[
-            Expanded(flex: 3, child: Container()),
-            Expanded(flex: 3, child: _buildPercentageTextFormField()),
-            Expanded(
-                flex: 3,
-                child: Text(
-                  ' %',
-                  textScaleFactor: 2,
-                )),
-          ],
-          mainAxisAlignment: MainAxisAlignment.center,
-        ),
-        Padding(padding: EdgeInsets.all(24)),
-        _buildSubmitButton(),
+        Expanded(flex: 3, child: Container()),
+        Expanded(flex: 3, child: _buildPercentageTextFormField()),
+        Expanded(flex: 3, child: Text(' %', textScaleFactor: 2)),
       ],
       mainAxisAlignment: MainAxisAlignment.center,
     );
@@ -231,54 +220,35 @@ class _GradingPageState extends State<GradingPage> {
   Widget _buildFractionForm() {
     return Column(
       children: [
-        _buildMethodSelectDropdownFormButton(),
-        Padding(padding: EdgeInsets.all(24)),
         Row(
           children: [
-            _buildTriageGradingFormCheckBox(),
-            Padding(padding: EdgeInsets.all(12)),
-            Text("Triage Grading?"),
+            Expanded(flex: 3, child: Container()),
+            Expanded(flex: 4, child: _buildNumeratorTextFormField()),
+            Expanded(flex: 3, child: Container()),
           ],
         ),
-        Padding(padding: EdgeInsets.all(24)),
-        Column(
+        Padding(padding: EdgeInsets.all(8)),
+        Row(
           children: [
-            Row(
-              children: <Widget>[
-                Expanded(flex: 3, child: Container()),
-                Expanded(flex: 4, child: _buildNumeratorTextFormField()),
-                Expanded(flex: 3, child: Container()),
-              ],
-            ),
-            Padding(padding: EdgeInsets.all(8)),
-            Row(
-              children: <Widget>[
-                Expanded(flex: 3, child: Container()),
-                Expanded(
-                  flex: 5,
-                  child: Divider(color: Colors.black87, thickness: 2),
-                ),
-                Expanded(flex: 3, child: Container()),
-              ],
-            ),
-            Padding(padding: EdgeInsets.all(8)),
-            Row(
-              children: <Widget>[
-                Expanded(flex: 3, child: Container()),
-                Expanded(flex: 4, child: _buildDenominatorTextFormField()),
-                Expanded(flex: 3, child: Container()),
-              ],
-            ),
+            Expanded(flex: 3, child: Container()),
+            Expanded(
+                flex: 5, child: Divider(color: Colors.black87, thickness: 2)),
+            Expanded(flex: 3, child: Container()),
           ],
         ),
-        Padding(padding: EdgeInsets.all(24)),
-        _buildSubmitButton(),
+        Padding(padding: EdgeInsets.all(8)),
+        Row(
+          children: [
+            Expanded(flex: 3, child: Container()),
+            Expanded(flex: 4, child: _buildDenominatorTextFormField()),
+            Expanded(flex: 3, child: Container()),
+          ],
+        ),
       ],
-      mainAxisAlignment: MainAxisAlignment.center,
     );
   }
 
-  Widget _buildForm() {
+  Widget _buildValueInputFormWidgets() {
     switch (_selectedMethod) {
       case percentMethod:
         {
@@ -295,18 +265,30 @@ class _GradingPageState extends State<GradingPage> {
     }
   }
 
+  Widget _buildPageContent() {
+    return Column(
+      children: [
+        _buildMethodSelectDropdownFormButton(),
+        Padding(padding: EdgeInsets.all(24)),
+        _buildTriageGradingRow(),
+        Padding(padding: EdgeInsets.all(24)),
+        _buildValueInputFormWidgets(),
+        Padding(padding: EdgeInsets.all(24)),
+        _buildSubmitButton(),
+      ],
+      mainAxisAlignment: MainAxisAlignment.center,
+    );
+  }
+
   @override
   build(BuildContext context) {
-    var inputForm = _buildForm();
-    print("Building the form");
-
     return Scaffold(
       appBar: AppBar(
         title: Text('Letter Grader'),
       ),
       body: Padding(
         padding: EdgeInsets.all(24),
-        child: Form(child: inputForm, key: _formKey),
+        child: Form(child: _buildPageContent(), key: _formKey),
       ),
     );
   }
