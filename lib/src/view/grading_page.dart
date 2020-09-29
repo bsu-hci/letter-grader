@@ -102,6 +102,9 @@ class _GradingPageState extends State<GradingPage> {
       onChanged: (value) {
         setState(() {
           _selectedMethod = value;
+          _percent = null;
+          _numerator = null;
+          _denominator = null;
         });
       },
       items: <String>[percentMethod, fractionMethod]
