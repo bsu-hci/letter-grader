@@ -3,22 +3,24 @@ import 'package:letter_grader/src/model/grade.dart';
 import 'package:letter_grader/src/view/grading_page.dart';
 
 class ResultPage extends StatefulWidget {
-  double _percent;
-  double _numerator;
-  double _denominator;
+  final double percent;
+  final double numerator;
+  final double denominator;
+  final bool isTriage;
 
-  ResultPage.fromPercent(double percent) {
-    _percent = percent;
-  }
-
-  ResultPage.fromFraction(double numerator, double denominator) {
-    _numerator = numerator;
-    _denominator = denominator;
-  }
+  ResultPage({
+    this.percent,
+    this.numerator,
+    this.denominator,
+    this.isTriage = false,
+  })  : assert(percent != null || (numerator != null && denominator != null)),
+        assert(percent != null ? percent >= 0.0 : true),
+        assert(numerator != null ? numerator >= 0.0 : true),
+        assert(denominator != null ? denominator > 0 : true);
 
   @override
   _ResultPageState createState() {
-    return _ResultPageState(_percent, _numerator, _denominator);
+    return _ResultPageState(percent, numerator, denominator, isTriage);
   }
 }
 
@@ -26,11 +28,14 @@ class _ResultPageState extends State<ResultPage> {
   double _percent;
   double _numerator;
   double _denominator;
+  bool _isTriage;
 
-  _ResultPageState(double percent, double numerator, double denominator) {
+  _ResultPageState(
+      double percent, double numerator, double denominator, bool isTriage) {
     _percent = percent;
     _numerator = numerator;
     _denominator = denominator;
+    _isTriage = isTriage;
   }
 
   String _getDisplayedScore() {
@@ -46,9 +51,9 @@ class _ResultPageState extends State<ResultPage> {
   Grade _getGrade() {
     var grade;
     if (_percent != null) {
-      grade = Grade.fromPercentage(_percent);
+      grade = Grade.fromPercentage(_percent, isTriage: _isTriage);
     } else {
-      grade = Grade.fromFraction(_numerator, _denominator);
+      grade = Grade.fromFraction(_numerator, _denominator, isTriage: _isTriage);
     }
     return grade;
   }

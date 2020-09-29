@@ -21,15 +21,22 @@ class _GradingPageState extends State<GradingPage> {
   static const validateGreaterThanZero = 'Must be greater than zero';
   static const validateNumber = 'Must be a number';
 
+  static const _inputDecoration = InputDecoration(
+    border: OutlineInputBorder(),
+    labelText: 'Enter a number',
+  );
+
   double _numerator;
   double _denominator;
   double _percent;
   String _selectedMethod;
+  bool _isTriaged;
 
   @override
   void initState() {
     super.initState();
     _selectedMethod = percentMethod;
+    _isTriaged = false;
   }
 
   String Function(String) _numeratorValidator() {
@@ -104,13 +111,21 @@ class _GradingPageState extends State<GradingPage> {
     );
   }
 
+  Widget _buildTriageGradingFormCheckBox() {
+    return Checkbox(
+      value: _isTriaged,
+      onChanged: (value) => {
+        setState(() {
+          _isTriaged = value;
+        })
+      },
+    );
+  }
+
   Widget _buildNumeratorTextFormField() {
     return TextFormField(
       initialValue: "",
-      decoration: InputDecoration(
-        border: OutlineInputBorder(),
-        labelText: 'Enter a number',
-      ),
+      decoration: _inputDecoration,
       validator: _numeratorValidator(),
       onSaved: (value) {
         _numerator = double.tryParse(value);
@@ -121,10 +136,7 @@ class _GradingPageState extends State<GradingPage> {
   Widget _buildDenominatorTextFormField() {
     return TextFormField(
       initialValue: "",
-      decoration: InputDecoration(
-        border: OutlineInputBorder(),
-        labelText: 'Enter a number',
-      ),
+      decoration: _inputDecoration,
       validator: _denominatorValidator(),
       onSaved: (value) {
         _denominator = double.tryParse(value);
@@ -135,10 +147,7 @@ class _GradingPageState extends State<GradingPage> {
   Widget _buildPercentageTextFormField() {
     return TextFormField(
       initialValue: "",
-      decoration: InputDecoration(
-          border: OutlineInputBorder(),
-          labelText: 'Enter a number',
-          helperStyle: TextStyle()),
+      decoration: _inputDecoration,
       validator: _percentValidator(),
       onSaved: (value) {
         _percent = double.tryParse(value);
@@ -148,13 +157,19 @@ class _GradingPageState extends State<GradingPage> {
 
   Route _percentRoute() {
     return routeWithSlideTransition(
-      ResultPage.fromPercent(_percent),
+      ResultPage(
+        percent: _percent,
+        isTriage: _isTriaged,
+      ),
     );
   }
 
   Route _fractionRoute() {
     return routeWithSlideTransition(
-      ResultPage.fromFraction(_numerator, _denominator),
+      ResultPage(
+        numerator: _numerator,
+        denominator: _denominator,
+      ),
     );
   }
 
@@ -186,6 +201,14 @@ class _GradingPageState extends State<GradingPage> {
         _buildMethodSelectDropdownFormButton(),
         Padding(padding: EdgeInsets.all(24)),
         Row(
+          children: [
+            _buildTriageGradingFormCheckBox(),
+            Padding(padding: EdgeInsets.all(12)),
+            Text("Triage Grading?"),
+          ],
+        ),
+        Padding(padding: EdgeInsets.all(24)),
+        Row(
           children: <Widget>[
             Expanded(flex: 3, child: Container()),
             Expanded(flex: 3, child: _buildPercentageTextFormField()),
@@ -209,6 +232,14 @@ class _GradingPageState extends State<GradingPage> {
     return Column(
       children: [
         _buildMethodSelectDropdownFormButton(),
+        Padding(padding: EdgeInsets.all(24)),
+        Row(
+          children: [
+            _buildTriageGradingFormCheckBox(),
+            Padding(padding: EdgeInsets.all(12)),
+            Text("Triage Grading?"),
+          ],
+        ),
         Padding(padding: EdgeInsets.all(24)),
         Column(
           children: [
