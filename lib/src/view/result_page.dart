@@ -58,6 +58,28 @@ class _ResultPageState extends State<ResultPage> {
     return grade;
   }
 
+  Widget _buildTriageGradingFormCheckBox() {
+    return Checkbox(
+      value: _isTriage,
+      onChanged: (value) => {
+        setState(() {
+          _isTriage = value;
+        })
+      },
+    );
+  }
+
+  Widget _buildTriageGradingRow() {
+    return Row(
+      children: [
+        _buildTriageGradingFormCheckBox(),
+        Padding(padding: EdgeInsets.all(1)),
+        Text("Triage Grading?"),
+      ],
+      mainAxisAlignment: MainAxisAlignment.center,
+    );
+  }
+
   Widget _buildDisplayedScoreText() {
     return Text(
       _getDisplayedScore(),
@@ -76,7 +98,7 @@ class _ResultPageState extends State<ResultPage> {
   Widget _buildBackButton() {
     return RaisedButton(
       onPressed: () {
-        Navigator.pushNamed(context, GradingPage.route);
+        Navigator.pop(context);
       },
       child: Text('Return'),
     );
@@ -85,6 +107,8 @@ class _ResultPageState extends State<ResultPage> {
   Widget _buildContent() {
     return Column(
       children: [
+        _buildTriageGradingRow(),
+        Padding(padding: EdgeInsets.all(24)),
         Row(
           children: [
             Expanded(flex: 3, child: Container()),

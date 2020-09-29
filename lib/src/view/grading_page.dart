@@ -93,24 +93,29 @@ class _GradingPageState extends State<GradingPage> {
   }
 
   Widget _buildMethodSelectDropdownFormButton() {
-    return DropdownButton<String>(
-      value: _selectedMethod,
-      icon: Icon(Icons.arrow_drop_down),
-      iconSize: 16,
-      elevation: 16,
-      style: TextStyle(color: Colors.blueAccent),
-      onChanged: (value) {
-        setState(() {
-          _selectedMethod = value;
-          _percent = null;
-          _numerator = null;
-          _denominator = null;
-        });
-      },
-      items: <String>[percentMethod, fractionMethod]
-          .map<DropdownMenuItem<String>>((String value) {
-        return DropdownMenuItem<String>(value: value, child: Text(value));
-      }).toList(),
+    return ButtonTheme(
+      alignedDropdown: true,
+      child: DropdownButton<String>(
+        value: _selectedMethod,
+        icon: Icon(Icons.arrow_drop_down),
+        iconSize: 16,
+        elevation: 16,
+        style: TextStyle(color: Colors.blueAccent),
+        onChanged: (value) {
+          setState(
+            () {
+              _selectedMethod = value;
+              _percent = null;
+              _numerator = null;
+              _denominator = null;
+            },
+          );
+        },
+        items: <String>[percentMethod, fractionMethod]
+            .map<DropdownMenuItem<String>>((String value) {
+          return DropdownMenuItem<String>(value: value, child: Text(value));
+        }).toList(),
+      ),
     );
   }
 
@@ -206,6 +211,7 @@ class _GradingPageState extends State<GradingPage> {
         }
       },
       child: Text('Submit'),
+      padding: EdgeInsets.all(16),
     );
   }
 
