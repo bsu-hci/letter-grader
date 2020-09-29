@@ -1,4 +1,4 @@
-import 'package:letter_grader/src/model/interface/grading_strategy.dart';
+import 'package:letter_grader/src/model/abstract/grading_strategy.dart';
 
 class ClassicalStrategy extends GradingStrategy {
   static const _dBoundary = 0.6;

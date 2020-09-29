@@ -1,4 +1,4 @@
-import 'package:letter_grader/src/model/interface/grading_strategy.dart';
+import 'package:letter_grader/src/model/abstract/grading_strategy.dart';
 
 class TriageStrategy extends GradingStrategy {
   static const _dBoundary = 7.0 / 15.0;
