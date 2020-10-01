@@ -40,7 +40,7 @@ class _ResultPageState extends State<ResultPage> {
 
   String _getDisplayedScore() {
     if (_percent != null) {
-      return _percent.toStringAsFixed(1);
+      return _percent.toStringAsFixed(1) + " %";
     } else {
       return _numerator.toStringAsFixed(1) +
           ' / ' +
