@@ -22,9 +22,19 @@ class _GradingPageState extends State<GradingPage> {
   static const validateNumber = 'Must be a number';
 
   static const _inputDecoration = InputDecoration(
-    border: OutlineInputBorder(),
-    labelText: 'Enter a number',
-  );
+      border: OutlineInputBorder(
+        borderRadius: BorderRadius.all(Radius.circular(5)),
+      ),
+      labelText: 'Enter a number',
+      enabledBorder: OutlineInputBorder(
+        borderSide: BorderSide(
+          color: Colors.black,
+          width: 3,
+        ),
+      ),
+      focusedBorder: OutlineInputBorder(
+        borderSide: BorderSide(color: Colors.blueAccent, width: 5),
+      ));
 
   double _numerator;
   double _denominator;
@@ -87,6 +97,7 @@ class _GradingPageState extends State<GradingPage> {
       if (parsed < 0) {
         return validateZeroOrGreater;
       }
+      return null;
     }
 
     return validate;
@@ -98,9 +109,12 @@ class _GradingPageState extends State<GradingPage> {
       child: DropdownButton<String>(
         value: _selectedMethod,
         icon: Icon(Icons.arrow_drop_down),
-        iconSize: 16,
+        iconSize: 32,
         elevation: 16,
-        style: TextStyle(color: Colors.blueAccent),
+        dropdownColor: Colors.white,
+        style: TextStyle(color: Colors.black),
+        itemHeight: 60,
+        iconEnabledColor: Colors.black,
         onChanged: (value) {
           setState(
             () {
@@ -113,7 +127,12 @@ class _GradingPageState extends State<GradingPage> {
         },
         items: <String>[percentMethod, fractionMethod]
             .map<DropdownMenuItem<String>>((String value) {
-          return DropdownMenuItem<String>(value: value, child: Text(value));
+          return DropdownMenuItem<String>(
+              value: value,
+              child: Text(
+                value,
+                textScaleFactor: 2,
+              ));
         }).toList(),
       ),
     );
@@ -127,6 +146,11 @@ class _GradingPageState extends State<GradingPage> {
           _isTriaged = value;
         })
       },
+      activeColor: Colors.blueAccent,
+      checkColor: Colors.white,
+      hoverColor: Colors.black45,
+      focusColor: Colors.black,
+      materialTapTargetSize: MaterialTapTargetSize.padded,
     );
   }
 
@@ -135,7 +159,10 @@ class _GradingPageState extends State<GradingPage> {
       children: [
         _buildTriageGradingFormCheckBox(),
         Padding(padding: EdgeInsets.all(1)),
-        Text("Triage Grading?"),
+        Text(
+          "Triage Grading?",
+          textScaleFactor: 2,
+        ),
       ],
       mainAxisAlignment: MainAxisAlignment.center,
     );
@@ -210,7 +237,10 @@ class _GradingPageState extends State<GradingPage> {
           }
         }
       },
-      child: Text('Submit'),
+      child: Text(
+        'Submit',
+        textScaleFactor: 2,
+      ),
       padding: EdgeInsets.all(16),
     );
   }
@@ -227,7 +257,7 @@ class _GradingPageState extends State<GradingPage> {
   }
 
   Widget _buildFractionForm() {
-    return Column(
+    return ListView(
       children: [
         Row(
           children: [
@@ -254,6 +284,7 @@ class _GradingPageState extends State<GradingPage> {
           ],
         ),
       ],
+      shrinkWrap: true,
     );
   }
 
@@ -275,17 +306,20 @@ class _GradingPageState extends State<GradingPage> {
   }
 
   Widget _buildPageContent() {
-    return Column(
-      children: [
-        _buildMethodSelectDropdownFormButton(),
-        Padding(padding: EdgeInsets.all(24)),
-        _buildTriageGradingRow(),
-        Padding(padding: EdgeInsets.all(24)),
-        _buildValueInputFormWidgets(),
-        Padding(padding: EdgeInsets.all(24)),
-        _buildSubmitButton(),
-      ],
-      mainAxisAlignment: MainAxisAlignment.center,
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          _buildMethodSelectDropdownFormButton(),
+          Padding(padding: EdgeInsets.all(24)),
+          _buildTriageGradingRow(),
+          Padding(padding: EdgeInsets.all(24)),
+          _buildValueInputFormWidgets(),
+          Padding(padding: EdgeInsets.all(24)),
+          _buildSubmitButton(),
+        ],
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+      ),
     );
   }
 
@@ -299,6 +333,7 @@ class _GradingPageState extends State<GradingPage> {
         padding: EdgeInsets.all(24),
         child: Form(child: _buildPageContent(), key: _formKey),
       ),
+      backgroundColor: Colors.white,
     );
   }
 }

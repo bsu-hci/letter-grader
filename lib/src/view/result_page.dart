@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:letter_grader/src/model/grade.dart';
-import 'package:letter_grader/src/view/grading_page.dart';
 
 class ResultPage extends StatefulWidget {
   final double percent;
@@ -105,25 +104,28 @@ class _ResultPageState extends State<ResultPage> {
   }
 
   Widget _buildContent() {
-    return Column(
-      children: [
-        _buildTriageGradingRow(),
-        Padding(padding: EdgeInsets.all(24)),
-        Row(
-          children: [
-            Expanded(flex: 3, child: Container()),
-            Expanded(flex: 4, child: _buildDisplayedScoreText()),
-            Expanded(flex: 3, child: Container()),
-          ],
-        ),
-        Padding(padding: EdgeInsets.all(12)),
-        _buildLetterText(),
-        Padding(padding: EdgeInsets.all(24)),
-        _buildBackButton(),
-      ],
-      mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      mainAxisSize: MainAxisSize.max,
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          _buildTriageGradingRow(),
+          Padding(padding: EdgeInsets.all(24)),
+          Row(
+            children: [
+              Expanded(flex: 3, child: Container()),
+              Expanded(flex: 4, child: _buildDisplayedScoreText()),
+              Expanded(flex: 3, child: Container()),
+            ],
+          ),
+          Padding(padding: EdgeInsets.all(12)),
+          _buildLetterText(),
+          Padding(padding: EdgeInsets.all(24)),
+          _buildBackButton(),
+        ],
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisSize: MainAxisSize.max,
+      ),
+      scrollDirection: Axis.vertical,
     );
   }
 

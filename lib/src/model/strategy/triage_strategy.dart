@@ -6,7 +6,7 @@ class TriageStrategy extends GradingStrategy {
   static const _bBoundary = 5.0 / 6.0;
   static const _aBoundary = 17.0 / 18.0;
 
-  TriageStrategy() {}
+  TriageStrategy();
 
   @override
   String getLetterGradeFromPercent(double percent) {
